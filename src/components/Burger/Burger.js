@@ -2,12 +2,22 @@ import React from 'react';
 import classes from './Burger.css';
 import BurgerIngredient from './Burgeringredient/Burgeringredient';
 const burger=(props)=>{
-    const transformedingredients=Object.keys(props.ingredients).map
+    let transformedingredients=Object.keys(props.ingredients)
+        .map(igKey=>{
+            return [...Array(props.ingredients[igKey])].map((_,i)=>{
+                return <BurgerIngredient key={igKey+i} type={igKey}/>
+            });
+        })
+         .reduce((arr,el)=>{
+             return arr.concat(el);
+         },[]);
+        console.log(transformedingredients);
+    if(transformedingredients.length===0)
+    transformedingredients=<p>Please Start Adding ingredients!</p>;
     return(
         <div className={classes.Burger}>
             <BurgerIngredient type="bread-top"/>
-            <BurgerIngredient type="meat"/>
-            <BurgerIngredient type="cheese"/>
+            {transformedingredients}
             <BurgerIngredient type="bread-bottom"/>
         </div>
     );
